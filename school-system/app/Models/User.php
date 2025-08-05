@@ -6,22 +6,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['first_name', 'last_name', 'email', 'password', 'school_id', 'role_id'];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -46,4 +44,33 @@ class User extends Authenticatable
         ];
     }
 
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // Permissions relationship (many-to-many through controls)
+    public function permissions()
+    {
+        return $this->role ? $this->role->permissions() : collect();
+    }
+
+    // Check if user has a permission by title
+    public function hasPermission($permissionTitle)
+    {
+        // Super admin shortcut
+        if ($this->role && $this->role->name === 'super_admin') {
+            return true;
+        }
+        $permissions = $this->permissions();
+        if (method_exists($permissions, 'get')) {
+            $permissions = $permissions->get();
+        }
+        return $permissions->where('title', $permissionTitle)->count() > 0;
+    }
 }

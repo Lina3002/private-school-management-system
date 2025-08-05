@@ -17,16 +17,33 @@ class PermissionSeeder extends Seeder
         $defaultPermissions = [
             'manage_students',
             'view_grades',
-            'edit_timetable',
-            'assign_teachers',
-            'send_announcement',
-            'manage_transport',
-            'access_finance',
-            'view_attendance',
-            'manage_homework',
-            'manage_permissions',
+            'school.create', 'school.edit', 'school.delete', 'school.view', 'school.activate', 'school.deactivate',
+            'teacher.create', 'teacher.edit', 'teacher.delete', 'teacher.view', 'teacher.assign_class', 'teacher.assign_subject',
+            'student.create', 'student.edit', 'student.delete', 'student.view', 'student.assign_class', 'student.assign_parent', 'student.suspend',
+            'parent.create', 'parent.edit', 'parent.delete', 'parent.view',
+            'staff.create', 'staff.edit', 'staff.delete', 'staff.view', 'staff.assign_role', 'staff.assign_permission',
+            'role.create', 'role.edit', 'role.delete', 'role.view', 'role.assign', 'permission.manage',
+            'class.create', 'class.edit', 'class.delete', 'class.view',
+            'subject.create', 'subject.edit', 'subject.delete', 'subject.view',
+            'busroute.create', 'busroute.edit', 'busroute.delete', 'busroute.assign_driver', 'busroute.assign_assistant', 'busroute.track', 'busroute.view_schedule',
+            'grades.view', 'grades.edit', 'reportcard.generate', 'grading.manage_scale',
+            'timetable.create', 'timetable.edit', 'timetable.view', 'attendance.mark', 'attendance.edit', 'attendance.view',
+            'platform.manage_settings', 'school.manage_settings', 'template.manage', 'platform.view_logs', 'platform.view_stats',
+            'billing.view', 'billing.update', 'billing.cancel', 'billing.generate_invoice',
+            'user.impersonate', 'user.reset_password', 'school.purge_data', 'data.backup', 'data.restore',
         ];
 
+        // Ensure at least one school exists
+        if (\App\Models\School::count() === 0) {
+            \App\Models\School::create([
+                'name' => 'Demo School',
+                'email' => 'demo@school.com',
+                'address' => '123 Demo St',
+                'phone' => '0123456789',
+                'logo' => null,
+                'school_level' => 'primary',
+            ]);
+        }
         $schools = \App\Models\School::all();
 
         foreach ($schools as $school) {
@@ -37,7 +54,6 @@ class PermissionSeeder extends Seeder
                 ]);
             }
 
-            // Assign all permissions to super_admin
             $superAdminRole = Role::where([
                 'name' => 'super_admin',
                 'school_id' => $school->id,
@@ -49,7 +65,6 @@ class PermissionSeeder extends Seeder
                 }
             }
 
-            // Example: Give specific permissions to 'teacher'
             $teacherJob = JobTitle::where([
                 'name' => 'teacher',
                 'school_id' => $school->id,
