@@ -31,15 +31,15 @@
                         User Management
                     </a>
                 </li>
-                <li class="{{ request()->routeIs('superadmin.roles.*') ? 'mm-active' : '' }}">
-                    <a href="{{ route('superadmin.roles.index') }}">
+                <li class="{{ request()->routeIs('superadmin.roles_permissions.*') ? 'mm-active' : '' }}">
+                    <a href="{{ route('superadmin.roles_permissions.index') }}">
                         <i class="metismenu-icon pe-7s-id"></i>
                         Roles & Permissions
                     </a>
                 </li>
                 <li class="app-sidebar__heading">Platform</li>
-                <li class="{{ request()->routeIs('superadmin.settings') ? 'mm-active' : '' }}">
-                    <a href="{{ route('superadmin.settings') }}">
+                <li class="{{ request()->routeIs('superadmin.settings.index') ? 'mm-active' : '' }}">
+                    <a href="{{ route('superadmin.settings.index') }}">
                         <i class="metismenu-icon pe-7s-tools"></i>
                         Platform Settings
                     </a>

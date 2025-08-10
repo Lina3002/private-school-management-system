@@ -8,17 +8,17 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        Are you sure you want to delete this school?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <form id="deleteSchoolForm" method="POST" style="display:inline;">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-      </div>
+      <form id="deleteSchoolForm" method="POST">
+        @csrf
+        @method('DELETE')
+        <div class="modal-body">
+          Are you sure you want to delete this school?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

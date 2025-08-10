@@ -16,9 +16,13 @@ class JobTitle extends Model
         return $this->belongsTo(School::class);
     }
 
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'accesses', 'job_title_id', 'permission_id');
+    }
+
     public function staffs()
     {
         return $this->hasMany(Staff::class);
     }
 }
-

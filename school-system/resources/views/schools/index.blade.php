@@ -81,17 +81,23 @@
 
 @push('scripts')
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var deleteButtons = document.querySelectorAll('.delete-school-btn');
-        var deleteForm = document.getElementById('deleteSchoolForm');
-        var deleteModal = $('#deleteSchoolModal');
-        deleteButtons.forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                deleteForm.action = this.getAttribute('data-action');
-                deleteModal.modal('show');
-            });
+document.addEventListener('DOMContentLoaded', function () {
+    var deleteButtons = document.querySelectorAll('.delete-school-btn');
+    var deleteForm = document.getElementById('deleteSchoolForm');
+    var deleteModal = $('#deleteSchoolModal');
+    deleteButtons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            deleteForm.action = btn.getAttribute('data-action');
+            deleteModal.modal('show');
         });
     });
+    // Ensure modal closes and backdrop is removed on cancel/close
+    $('#deleteSchoolModal').on('hidden.bs.modal', function () {
+        document.body.classList.remove('modal-open');
+        $('.modal-backdrop').remove();
+    });
+});
 </script>
 @endpush
+@include('schools.partials.delete-modal')
 @endsection

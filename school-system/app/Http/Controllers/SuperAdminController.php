@@ -48,13 +48,66 @@ class SuperAdminController extends Controller
         return view('superadmin.settings');
     }
 
-    public function logs()
+    public function logs(Request $request)
     {
-        return view('superadmin.logs');
+        $query = ActivityLog::query()->with('user');
+        if ($request->filled('user')) {
+            $query->whereHas('user', function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->user . '%');
+            });
+        }
+        if ($request->filled('action')) {
+            $query->where('description', 'like', '%' . $request->action . '%');
+        }
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->from);
+        }
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->to);
+        }
+        $logs = $query->latest()->paginate(25);
+        return view('superadmin.logs', compact('logs'));
     }
 
-    public function billing()
+    public function billing(Request $request)
     {
-        return view('superadmin.billing');
+        $schools = \App\Models\School::all();
+        $query = \App\Models\Payment::query()->with('school');
+        if ($request->filled('school_id')) {
+            $query->where('school_id', $request->school_id);
+        }
+        if ($request->filled('from')) {
+            $query->whereDate('date', '>=', $request->from);
+        }
+        if ($request->filled('to')) {
+            $query->whereDate('date', '<=', $request->to);
+        }
+        $payments = $query->latest()->get();
+        $stats = [
+            'total_revenue' => $payments->sum('amount'),
+            'total_profit' => $payments->where('type', 'profit')->sum('amount'),
+            'total_payments' => $payments->count(),
+            'total_outstanding' => $payments->where('payment_status', 'pending')->sum('amount'),
+        ];
+        // Chart data: payments by day
+        $chartSource = clone $query;
+        $paymentsByDay = \App\Models\Payment::selectRaw('DATE(date) as date, SUM(amount) as total')
+    ->where(function($q) use ($request) {
+        if ($request->filled('school_id')) {
+            $q->where('school_id', $request->school_id);
+        }
+        if ($request->filled('from')) {
+            $q->whereDate('date', '>=', $request->from);
+        }
+        if ($request->filled('to')) {
+            $q->whereDate('date', '<=', $request->to);
+        }
+    })
+    ->groupBy('date')
+    ->orderBy('date')
+    ->get();
+        $chartLabels = $paymentsByDay->pluck('date')->toArray();
+        $chartData = $paymentsByDay->pluck('total')->toArray();
+        return view('superadmin.billing', compact('schools', 'stats', 'payments', 'chartLabels', 'chartData'));
     }
 }

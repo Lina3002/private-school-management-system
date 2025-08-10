@@ -98,53 +98,79 @@ class UserController extends Controller
     // Show create user form
     public function create()
     {
-        $schools = School::all();
-        $roles = Role::all();
-        return view('users.create', compact('schools', 'roles'));
+        $schools = \App\Models\School::query()->get(); // Load all schools
+        $roles = \App\Models\Role::all();
+        $jobTitles = \App\Models\JobTitle::all()->unique('name')->values(); // Only unique job titles
+        return view('users.create', compact('schools', 'roles', 'jobTitles'));
     }
 
     // Store new user
     public function store(Request $request)
     {
-        $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'school_id' => 'required|exists:schools,id',
-            'role_id' => [
-                'required',
-                Rule::exists('roles', 'id'),
-                // Custom rule for one admin/manager per school
-            ],
-        ]);
+        $accountType = $request->input('account_type');
+        $tempPassword = str()->random(10);
+        if ($accountType === 'managing') {
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email',
+                'school_id' => 'required|exists:schools,id',
+                'role_id' => [
+                    'required',
+                    Rule::exists('roles', 'id'),
+                ],
+            ]);
 
-        // Enforce one admin/manager per school
-        $role = Role::find($request->role_id);
-        if (in_array($role->name, ['admin', 'manager'])) {
-            $exists = User::where('school_id', $request->school_id)
-                ->where('role_id', $role->id)
-                ->whereNull('deleted_at')
-                ->exists();
-            if ($exists) {
-                return back()->withErrors(['role_id' => 'This school already has a ' . $role->name . '.'])->withInput();
+            $role = Role::find($request->role_id);
+            if (in_array($role->name, ['admin', 'manager'])) {
+                $exists = User::where('school_id', $request->school_id)
+                    ->where('role_id', $role->id)
+                    ->whereNull('deleted_at')
+                    ->exists();
+                if ($exists) {
+                    return back()->withErrors(['role_id' => 'This school already has a ' . $role->name . '.'])->withInput();
+                }
             }
+
+            $user = User::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'school_id' => $request->school_id,
+                'role_id' => $request->role_id,
+                'password' => Hash::make($tempPassword),
+            ]);
+
+            // Send notification email
+            Mail::to($user->email)->send(new \App\Mail\UserCreated($user, $tempPassword));
+        } elseif ($accountType === 'staff') {
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|unique:staffs,email',
+                'school_id' => 'required|exists:schools,id',
+                'job_title_id' => 'required|exists:job_titles,id',
+            ]);
+
+            $staff = \App\Models\Staff::create([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'school_id' => $request->school_id,
+                'job_title_id' => $request->job_title_id,
+                'password' => Hash::make($tempPassword),
+                'phone' => $request->phone ?? '',
+                'CIN' => $request->CIN ?? '',
+                'address' => $request->address ?? '',
+            ]);
+
+            // Send notification email
+            Mail::to($staff->email)->send(new \App\Mail\StaffCreated($staff, $tempPassword));
+        } else {
+            return back()->withErrors(['account_type' => 'Invalid account type'])->withInput();
         }
 
-        // Generate temp password
-        $tempPassword = str()->random(10);
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'school_id' => $request->school_id,
-            'role_id' => $request->role_id,
-            'password' => Hash::make($tempPassword),
-        ]);
-
-        // Send notification email (pseudo-code, see config/mail.php)
-        Mail::to($user->email)->send(new \App\Mail\UserCreated($user, $tempPassword));
-
-        return redirect()->route('superadmin.users.index')->with('success', 'User created and notified by email.');
+        return redirect()->route('superadmin.users.index')->with('success', 'Account created and credentials emailed.');
     }
 
     // Show edit user form

@@ -1,17 +1,13 @@
 @extends('layouts.superadmin')
 @section('content')
-<div class="app-page-title">
-    <div class="page-title-wrapper">
-        <div class="page-title-heading">
-            <div><i class="fa fa-user-edit"></i> Edit User</div>
-            <div class="page-title-subheading">Modify the details for this user.</div>
-        </div>
-        <div class="page-title-actions">
-            <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary">
-                <i class="fa fa-arrow-left"></i> Back to List
-            </a>
-        </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="mb-1" style="font-weight:600;"><i class="fa fa-user-edit mr-2"></i>Edit User</h2>
+        <p class="text-muted mb-0" style="font-size:1.05em;">Modify the details for this user.</p>
     </div>
+    <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary">
+        <i class="fa fa-arrow-left"></i> Back to List
+    </a>
 </div>
 <div class="main-card mb-3 card">
     <div class="card-body">

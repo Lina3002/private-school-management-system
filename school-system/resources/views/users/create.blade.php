@@ -1,17 +1,13 @@
 @extends('layouts.superadmin')
 @section('content')
-<div class="app-page-title">
-    <div class="page-title-wrapper">
-        <div class="page-title-heading">
-            <div><i class="fa fa-user-plus"></i> Add New User</div>
-            <div class="page-title-subheading">Register a new user for a school and assign a role.</div>
-        </div>
-        <div class="page-title-actions">
-            <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary">
-                <i class="fa fa-arrow-left"></i> Back to List
-            </a>
-        </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="mb-1" style="font-weight:600;"><i class="fa fa-user-plus mr-2"></i>Add New User</h2>
+        <p class="text-muted mb-0" style="font-size:1.05em;">Register a new user for a school and assign a role.</p>
     </div>
+    <a href="{{ route('superadmin.users.index') }}" class="btn btn-secondary">
+        <i class="fa fa-arrow-left"></i> Back to List
+    </a>
 </div>
 <div class="main-card mb-3 card">
     <div class="card-body">
@@ -91,6 +87,7 @@
                         <label for="job_title_id">Job Title</label>
                         <select class="form-control" id="job_title_id" name="job_title_id">
                             <option value="">Select Job Title</option>
+                            {{-- Only show unique job titles for staff --}}
                             @foreach($jobTitles as $jobTitle)
                                 <option value="{{ $jobTitle->id }}" {{ old('job_title_id') == $jobTitle->id ? 'selected' : '' }}>{{ ucfirst($jobTitle->name) }}</option>
                             @endforeach

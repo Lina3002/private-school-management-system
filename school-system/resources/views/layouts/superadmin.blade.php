@@ -9,9 +9,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Admin Dashboard</title>
     <link href="{{ asset('main.07a59de7b920cd76b874.css') }}" rel="stylesheet">
+
     <link rel="icon" href="{{ asset('assets/favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     @stack('styles')
+    <style>
+      /* Force remove blur and pointer-events from modal and backdrop */
+      .modal,
+      .modal-backdrop,
+      body.modal-open {
+        filter: none !important;
+        backdrop-filter: none !important;
+        pointer-events: auto !important;
+      }
+      .modal-backdrop {
+        opacity: 0.5 !important; /* Bootstrap default */
+      }
+    </style>
 </head>
 <body>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -28,11 +42,10 @@
             </div>
         </div>
     </div>
-    <script src="{{ $asset('js/main.js') }}"></script>
     <!-- jQuery and Bootstrap JS for modal functionality -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ $asset('js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
-    @include('schools.partials.delete-modal')
 </body>
 </html>
