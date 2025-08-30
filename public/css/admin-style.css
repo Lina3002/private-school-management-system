@@ -1,0 +1,261 @@
+body.admin-space {
+    background: #f7fafd;
+}
+.admin-header {
+    background: linear-gradient(90deg, #007bff 60%, #0056b3 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.admin-sidebar {
+    min-width: 210px;
+    height: 100vh;
+    background: #fff;
+    border-right: 1px solid #e3e3e3;
+}
+.admin-sidebar .nav-link {
+    color: #0056b3;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+.admin-sidebar .nav-link.active, .admin-sidebar .nav-link:hover {
+    background: #e8f0fe;
+    color: #007bff;
+}
+.admin-content {
+    padding: 2rem 2rem 1rem 2rem;
+    margin-left: 210px;
+}
+.admin-footer {
+    background: #0056b3;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+/* Fix Sidebar Active State Styling */
+.vertical-nav-menu .mm-active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #fff !important;
+    border-radius: 8px;
+    margin: 2px 8px;
+    padding: 8px 12px;
+}
+
+.vertical-nav-menu .mm-active a {
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.vertical-nav-menu .mm-active .metismenu-icon {
+    color: #fff !important;
+}
+
+.vertical-nav-menu .mm-active:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
+}
+
+/* Sidebar Hover Effects */
+.vertical-nav-menu li a:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea !important;
+    border-radius: 8px;
+    margin: 2px 8px;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+}
+
+.vertical-nav-menu li a:hover .metismenu-icon {
+    color: #667eea !important;
+}
+
+/* Page Title Styling */
+.app-page-title {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 20px 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+}
+
+.app-page-title .page-title-heading {
+    color: #fff;
+}
+
+.app-page-title .page-title-subheading {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-top: 5px;
+}
+
+.app-page-title .page-title-icon {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+.app-page-title .page-title-icon i {
+    font-size: 24px;
+    color: #fff;
+}
+
+/* Header Styling - Use Kero template styles */
+.app-header {
+    background: #fff !important;
+    border-bottom: 1px solid #e9ecef !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    padding: 0 20px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1030 !important;
+}
+
+.app-header__logo .logo-src {
+    padding: 15px 0;
+}
+
+.app-header__content {
+    padding: 0;
+}
+
+/* Search Functionality */
+.search-wrapper {
+    position: relative;
+    margin-right: 20px;
+}
+
+.search-wrapper .input-holder {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.search-wrapper.active .input-holder {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #f8f9fa;
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+}
+
+/* Button Styling */
+.btn-icon {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Profile Picture Consistency */
+.header-user-info .widget-content-left img {
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Modal Styling */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-header .close {
+    color: #fff;
+    opacity: 0.8;
+}
+
+.modal-header .close:hover {
+    opacity: 1;
+}
+
+/* Notification Styling */
+.notification-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.notification-item:hover {
+    background: #f8f9fa;
+    padding-left: 10px;
+    border-radius: 6px;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .app-header__content {
+        padding: 0 10px;
+    }
+    
+    .app-page-title {
+        padding: 15px 20px;
+        margin-bottom: 20px;
+    }
+    
+    .header-user-info {
+        display: none;
+    }
+}
+
+/* Spacing tweak to avoid sidebar cramped at top */
+.app-sidebar .app-sidebar__inner { padding-top: 12px; }
+
+/* Do not override Kero icon font styles; keep minimal overrides only */
+.metismenu-icon { line-height: 1; }
+
+/* Keep page title tweaks if present, but avoid breaking Kero header spacing */
+.app-page-title { margin-top: 0; }

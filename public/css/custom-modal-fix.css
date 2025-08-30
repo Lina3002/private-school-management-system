@@ -1,0 +1,89 @@
+/* Custom Modal Fixes */
+.modal,
+.modal-backdrop,
+body.modal-open {
+  filter: none !important;
+  backdrop-filter: none !important;
+  pointer-events: auto !important;
+}
+
+.modal-backdrop {
+  opacity: 0.5 !important;
+}
+
+/* Ensure dropdowns work properly */
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+
+/* Sidebar toggle functionality */
+.closed-sidebar .app-sidebar {
+  transform: translateX(-100%);
+}
+
+.closed-sidebar .app-main__outer {
+  margin-left: 0;
+}
+
+/* Fix sidebar hover effects */
+.app-sidebar .vertical-nav-menu li a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.app-sidebar .vertical-nav-menu li.mm-active > a {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Ensure proper spacing */
+.app-main__inner {
+  padding: 2rem;
+}
+
+/* Fix card styling */
+.main-card {
+  margin-bottom: 1.5rem;
+}
+
+.card-header-title {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Fix button styling */
+.btn-shadow {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Fix page title styling */
+.app-page-title {
+  margin-bottom: 2rem;
+}
+
+.page-title-heading {
+  display: flex;
+  align-items: center;
+}
+
+.page-title-icon {
+  margin-right: 1rem;
+  font-size: 2rem;
+}
+
+.page-title-subheading {
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
+
+.page-title-actions {
+  margin-left: auto;
+}
+
+
+
+
